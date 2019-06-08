@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	debug属性 		- 是否打印logback内部日志
+ 	scan属性		- 当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true
+ 	scanPeriod属性	- 设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
+ -->
+<configuration debug="false" scan="false">
+
+	<!-- Spring配置文件的值 -->
+	<springProperty scop="context" name="spring.application.name" source="spring.application.name" defaultValue=""/>
+	<!-- 变量: 日志输出路径 -->
+	<property name="application.name" value="${spring.application.name}" />
+	<property name="log.path" value="${spring.application.name}/log" />
+
+	<!-- 彩色日志格式 -->
+	<property name="CONSOLE_LOG_PATTERN"
+			  value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />
+	<!-- 彩色日志依赖的渲染类 -->
+	<conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+	<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+	<conversionRule conversionWord="wEx"
+					converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+
+	<!-- 控制台日志输出 -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- DEBUG日志输出 -->
+	<appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.path}/debug_${application.name}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${log.path}/%d{yyyy-MM, aux}/debug_${application.name}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+			<!-- 文件大小, 超过大小生成新文件 -->
+			<maxFileSize>50MB</maxFileSize>
+			<!-- 日志文件保留天数 -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- ERROR日志输出 -->
+	<appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.path}/error_${application.name}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${log.path}/%d{yyyy-MM}/error_${application.name}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+			<!-- 文件大小, 超过大小生成新文件 -->
+			<maxFileSize>50MB</maxFileSize>
+			<!-- 日志文件保留天数 -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+		</encoder>
+		<!-- 限制ERROR日志输出 -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+	</appender>
+
+	<!-- logger: 控制某个包的日志输出 -->
+	<logger name="com.mantou.boot.controller" level="ERROR"/>
+
+	<!-- Root节点 项目全局日志控制 -->
+	<root level="INFO">
+		<!-- DEBUG日志输出 -->
+		<appender-ref ref="DEBUG" />
+		<!-- ERROR日志输出 -->
+		<appender-ref ref="ERROR" />
+		<!-- CONSOLE日志输出 -->
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</configuration>
