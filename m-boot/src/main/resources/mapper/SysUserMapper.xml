@@ -34,10 +34,10 @@
 
     <!-- 分页查询( IPge + WrapperSql查询 ) -->
     <select id="pageUserByWrapperSql" resultType="com.mantou.boot.entity.SysUser">
-        SELECT su.* FROM sys_user
+        SELECT su.* FROM sys_user su
         <where>
             <if test="ew.sqlSegment != null and ew.sqlSegment != ''">
-                <where>${ew.sqlSegment}</where>
+                ${ew.sqlSegment}
             </if>
         </where>
     </select>

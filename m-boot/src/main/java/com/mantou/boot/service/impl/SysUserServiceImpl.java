@@ -122,7 +122,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .eq(sysUserParamDTO.getUserId() != null, "user_id", sysUserParamDTO.getUserId())
                 // TODO like这里使用likeRight, 不使用% column % 因为如果该字段加了索引, 索引会断掉
                 .likeRight(StringUtils.isNotEmpty(sysUserParamDTO.getUserName()), "user_name", sysUserParamDTO.getUserName())
-                .likeRight(StringUtils.isNotEmpty(sysUserParamDTO.getUserAccount()), "user_name", sysUserParamDTO.getUserAccount()));
+                .likeRight(StringUtils.isNotEmpty(sysUserParamDTO.getUserAccount()), "user_account", sysUserParamDTO.getUserAccount()));
 
         return iPage;
     }
@@ -168,7 +168,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .eq(sysUserParamDTO.getUserId() != null, "user_id", sysUserParamDTO.getUserId())
                 // TODO like这里使用likeRight, 不使用% column % 因为如果该字段加了索引, 索引会断掉
                 .likeRight(StringUtils.isNotEmpty(sysUserParamDTO.getUserName()), "user_name", sysUserParamDTO.getUserName())
-                .likeRight(StringUtils.isNotEmpty(sysUserParamDTO.getUserAccount()), "user_name", sysUserParamDTO.getUserAccount());
+                .likeRight(StringUtils.isNotEmpty(sysUserParamDTO.getUserAccount()), "user_account", sysUserParamDTO.getUserAccount());
 
         return sysUserMapper.pageUserByWrapperSql(page, queryWrapper);
     }

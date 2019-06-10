@@ -9,16 +9,19 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
  * 系统模块-用户表
- *
+ *  TODO @Accessors提供链式set方法
+ *  TODO @RequiredArgsConstructor 提供静态的构造方法
  * @author mantou
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@RequiredArgsConstructor(staticName = "newSysUser")
 @ApiModel(value="SysUser对象", description="系统模块-用户表")
 public class SysUser extends Model<SysUser> {
 

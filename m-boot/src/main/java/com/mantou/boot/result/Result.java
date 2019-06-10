@@ -4,6 +4,8 @@ package com.mantou.boot.result;
 
 
 import com.mantou.boot.constants.ExceptionConstant;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 
@@ -13,6 +15,7 @@ import java.io.Serializable;
  *
  * @author mantou
  */
+@Data
 public class Result<T> implements Serializable {
 
     private static final long serialVersionUID = 4559672604634663976L;
@@ -73,7 +76,7 @@ public class Result<T> implements Serializable {
      * 操作是否成功 - 构造方法
      */
     public static <T> Result<T> isSuccess(boolean isSuccess, String errorMessage, T data) {
-        return isSuccess ? Result.<T>failed(errorMessage) : Result.<T>success(data);
+        return isSuccess ? Result.<T>success(data) : Result.<T>failed(errorMessage);
     }
     /**------------------------------------------------------操作类方法-----------------------------------------------------**/
 

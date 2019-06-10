@@ -8,6 +8,8 @@ import com.mantou.boot.entity.SysUser;
 import com.mantou.boot.exception.BusinessException;
 import com.mantou.boot.result.Result;
 import com.mantou.boot.service.SysUserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.omg.CORBA.SystemException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/sysUser")
+@Api(tags = "用户管理")
 public class SysUserController {
 
     @Autowired
@@ -34,6 +37,7 @@ public class SysUserController {
      * @param sysUser
      * @return
      */
+    @ApiOperation(value = "新增用户")
     @PostMapping(path = "/saveUser")
     public Result saveUser(@RequestBody(required = false) SysUser sysUser) {
 
@@ -51,6 +55,7 @@ public class SysUserController {
      * @param sysUserList
      * @return
      */
+    @ApiOperation(value = "批量新增用户")
     @PostMapping(path = "/saveUserBatch")
     public Result saveUserBatch(@RequestBody(required = false) List<SysUser> sysUserList) {
 
@@ -72,6 +77,7 @@ public class SysUserController {
      * @param pageSize
      * @return
      */
+    @ApiOperation(value = "分页查询( IPge + QueryWrapper查询 )")
     @GetMapping(path = "/pageUser")
     public Result<IPage<SysUser>> pageUser(@RequestParam(required = false) Long userId , @RequestParam(required = false) String userName
             , @RequestParam(required = false) String userAccount, @RequestParam(required = false) Integer pageNum
@@ -96,6 +102,7 @@ public class SysUserController {
      * @param pageSize
      * @return
      */
+    @ApiOperation(value = "分页查询( IPge + 原生SQL查询 )")
     @GetMapping(path = "/pageUserByParam")
     public Result<IPage<SysUser>> pageUserByParam(@RequestParam(required = false) Long userId , @RequestParam(required = false) String userName
             , @RequestParam(required = false) String userAccount, @RequestParam(required = false) Integer pageNum
@@ -121,6 +128,7 @@ public class SysUserController {
      * @param pageSize
      * @return
      */
+    @ApiOperation(value = "分页查询( IPge + WrapperSql查询 )")
     @GetMapping(path = "/pageUserByWrapperSql")
     public Result<IPage<SysUser>> pageUserByWrapperSql(@RequestParam(required = false) Long userId , @RequestParam(required = false) String userName
             , @RequestParam(required = false) String userAccount, @RequestParam(required = false) Integer pageNum
@@ -142,6 +150,7 @@ public class SysUserController {
      * @param sysUser
      * @return
      */
+    @ApiOperation(value = "通过ID更新用户")
     @PostMapping(path = "/updateUserById")
     public Result updateUserById(@RequestBody(required = false) SysUser sysUser) {
 
@@ -162,13 +171,17 @@ public class SysUserController {
      * @param sysUserParamDTO
      * @return
      */
+    @ApiOperation(value = "删除用户(物理删除)")
     @PostMapping(path = "/deleteUser")
     public Result deleteUser(@RequestBody(required = false) SysUserParamDTO sysUserParamDTO) {
 
         if (sysUserParamDTO == null) {
             return Result.failed("参数对象 empty!");
         }
-        if (sysUserParamDTO.getUserId() == null || sysUserParamDTO.getUserIdList() == null || sysUserParamDTO.getUserIdList().size() < 1) {
+
+        boolean b = sysUserParamDTO.getUserId() == null && (sysUserParamDTO.getUserIdList() == null || sysUserParamDTO.getUserIdList().size() < 1);
+
+        if (b) {
             return Result.failed("用户ID empty");
         }
 
