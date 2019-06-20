@@ -1,7 +1,7 @@
 package com.mantou.boot.utils;
 
 import com.alibaba.fastjson.JSON;
-import springfox.documentation.spring.web.json.Json;
+import com.mantou.boot.exception.CustomJSONException;
 
 /**
  * 基于fastjson的DTO转换工具类
@@ -18,8 +18,13 @@ public class DTOUtil {
      * @return T
      */
     public static <T> T DTOConvert(Object obj, Class<T> newClazz){
-
-        String jsonString = JSON.toJSONString(obj);
-        return JSON.parseObject(jsonString, newClazz);
+        T t = null;
+        try {
+            String jsonString = JSON.toJSONString(obj);
+            t = JSON.parseObject(jsonString, newClazz);
+        } catch (Exception e) {
+            throw new CustomJSONException("DTO转换异常");
+        }
+        return t;
     }
 }

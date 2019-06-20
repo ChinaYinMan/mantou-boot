@@ -63,7 +63,7 @@
 	</appender>
 
 	<!-- logger: 控制某个包的日志输出 -->
-	<logger name="com.mantou.boot.controller" level="ERROR"/>
+	<logger name="com.mantou.boot.controller" level="DEBUG"/>
 
 	<!-- Root节点 项目全局日志控制 -->
 	<root level="INFO">

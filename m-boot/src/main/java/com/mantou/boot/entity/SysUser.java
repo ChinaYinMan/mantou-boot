@@ -19,7 +19,6 @@ import lombok.experimental.Accessors;
  * @author mantou
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @RequiredArgsConstructor(staticName = "newSysUser")
 @ApiModel(value="SysUser对象", description="系统模块-用户表")

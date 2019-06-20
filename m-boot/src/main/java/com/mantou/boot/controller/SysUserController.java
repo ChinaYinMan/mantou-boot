@@ -1,6 +1,8 @@
 package com.mantou.boot.controller;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mantou.boot.dto.param.SysUserParamDTO;
@@ -34,12 +36,14 @@ public class SysUserController {
 
     /**
      * 新增用户
-     * @param sysUser
+     * @param json
      * @return
      */
     @ApiOperation(value = "新增用户")
     @PostMapping(path = "/saveUser")
-    public Result saveUser(@RequestBody(required = false) SysUser sysUser) {
+    public Result saveUser(@RequestBody(required = false) String json) {
+
+        SysUser sysUser = JSON.parseObject(json, SysUser.class);
 
         if (sysUser == null) {
             return Result.failed("参数对象 empty!");
