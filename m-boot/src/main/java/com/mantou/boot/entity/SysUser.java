@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @RequiredArgsConstructor(staticName = "newSysUser")
-@ApiModel(value="SysUser对象", description="系统模块-用户表")
+@ApiModel(value="SysUser对象")
 public class SysUser extends Model<SysUser> {
 
     private static final long serialVersionUID = 1L;
@@ -33,7 +33,7 @@ public class SysUser extends Model<SysUser> {
     @ApiModelProperty(value = "用户登录账号")
     private String userAccount;
 
-    @ApiModelProperty(value = "用户登录密码(由英文字母, 数字, 下划线组成, 必须以英文字母开头)")
+    @ApiModelProperty(value = "用户登录密码(由英文字母, 数字, 下划线组成, 必须以英文字母开头)", hidden = true)
     private String userPassword;
 
     @ApiModelProperty(value = "用户真实名称")

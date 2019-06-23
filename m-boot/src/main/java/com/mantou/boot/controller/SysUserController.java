@@ -12,6 +12,7 @@ import com.mantou.boot.result.Result;
 import com.mantou.boot.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.omg.CORBA.SystemException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +42,7 @@ public class SysUserController {
      */
     @ApiOperation(value = "新增用户")
     @PostMapping(path = "/saveUser")
-    public Result saveUser(@RequestBody(required = false) String json) {
-
-        SysUser sysUser = JSON.parseObject(json, SysUser.class);
+    public Result saveUser(@RequestBody(required = false) SysUser sysUser) {
 
         if (sysUser == null) {
             return Result.failed("参数对象 empty!");
@@ -59,7 +58,7 @@ public class SysUserController {
      * @param sysUserList
      * @return
      */
-    @ApiOperation(value = "批量新增用户")
+    @ApiOperation(value = "批量新增用户", hidden = true)
     @PostMapping(path = "/saveUserBatch")
     public Result saveUserBatch(@RequestBody(required = false) List<SysUser> sysUserList) {
 
@@ -83,8 +82,10 @@ public class SysUserController {
      */
     @ApiOperation(value = "分页查询( IPge + QueryWrapper查询 )")
     @GetMapping(path = "/pageUser")
-    public Result<IPage<SysUser>> pageUser(@RequestParam(required = false) Long userId , @RequestParam(required = false) String userName
-            , @RequestParam(required = false) String userAccount, @RequestParam(required = false) Integer pageNum
+    public Result<IPage<SysUser>> pageUser(@ApiParam(value = "用户ID", required = true,  hidden = false) @RequestParam(required = false) Long userId
+            , @RequestParam(required = false) String userName
+            , @RequestParam(required = false) String userAccount
+            , @RequestParam(required = false) Integer pageNum
             , @RequestParam(required = false) Integer pageSize) {
 
         //默认分页处理
